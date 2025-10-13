@@ -14,13 +14,15 @@ sunday = 6
 def main():
     file_path = pathlib.Path(os.path.dirname(__file__)) / 'data' / 'strasbourg_entzheim.csv'
     data = read_csv(file_path)
+
     # Example usage of the signal_filter functions
     year = '2023'
-    test_2023 = sf.get_data_per_day_of_week(data, monday)
-    avg_max_value = sf.get_average_value(test_2023, 'tmax')
-    avg_min_value = sf.get_average_value(test_2023, 'tmin')
-    min_value = sf.get_min_value(test_2023, 'tmin')
-    max_value = sf.get_max_value(test_2023, 'tmax')
+    test_2023 = sf.get_data_per_year(data, year)
+    test_mondays_2023 = sf.get_data_per_day_of_week(test_2023, monday)
+    avg_max_value = sf.get_average_value(test_mondays_2023, 'tmax')
+    avg_min_value = sf.get_average_value(test_mondays_2023, 'tmin')
+    min_value = sf.get_min_value(test_mondays_2023, 'tmin')
+    max_value = sf.get_max_value(test_mondays_2023, 'tmax')
     print(f"Max tmax on Mondays in {year}: {max_value}")
     print(f"Min tmin on Mondays in {year}: {min_value}")
     print(f"Average tmax on Mondays in {year}: {avg_max_value}")
