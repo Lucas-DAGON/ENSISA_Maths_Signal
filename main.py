@@ -1,36 +1,23 @@
 from csv_read.csv_reader import read_csv
-import signal_filter.signal_filter as sf
 import pathlib
 import os
-
-monday = 0
-tuesday = 1
-wednesday = 2
-thursday = 3
-friday = 4
-saturday = 5
-sunday = 6
+from datetime import datetime
+from run_noise_estimate import noise_estimate
+from run_descriptive import data_description
 
 def main():
     file_path = pathlib.Path(os.path.dirname(__file__)) / 'data' / 'strasbourg_entzheim.csv'
     data = read_csv(file_path)
+    csvkey_list = ['tavg', 'tmin', 'tmax', 'prcp', 'snow', 'wspd', 'wpgt', 'pres', 'tsun']
+    for ckey in csvkey_list:
+        data_description(data, ckey=ckey)
+        noise_estimate(data, key=ckey)
 
-    # Example usage of the signal_filter functions
-    year = '2023'
-    test_2023 = sf.get_data_per_year(data, year)
-    test_mondays_2023 = sf.get_data_per_day_of_week(test_2023, monday)
-    avg_max_value = sf.get_average_value(test_mondays_2023, 'tmax')
-    avg_min_value = sf.get_average_value(test_mondays_2023, 'tmin')
-    min_value = sf.get_min_value(test_mondays_2023, 'tmin')
-    max_value = sf.get_max_value(test_mondays_2023, 'tmax')
-    print(f"Max tmax on Mondays in {year}: {max_value}")
-    print(f"Min tmin on Mondays in {year}: {min_value}")
-    print(f"Average tmax on Mondays in {year}: {avg_max_value}")
-    print(f"Average tmin on Mondays in {year}: {avg_min_value}")
+
+    
     
 
-
-
+#Oui, insere la fonction dans main.py mais par
 
 if __name__ == "__main__":
     main()
